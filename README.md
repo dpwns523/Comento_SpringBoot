@@ -10,4 +10,4 @@
 
 실행 결과
 
-    ![image](https://user-images.githubusercontent.com/84260096/176841467-ad8fdcaa-d43d-423d-8f52-650dc7f9b860.png)
+  ![image](https://user-images.githubusercontent.com/84260096/176841467-ad8fdcaa-d43d-423d-8f52-650dc7f9b860.png)
