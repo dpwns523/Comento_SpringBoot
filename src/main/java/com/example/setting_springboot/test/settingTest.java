@@ -2,13 +2,27 @@ package com.example.setting_springboot.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.example.setting_springboot.service.StatisticService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class settingTest {
+
+    @Autowired
+    private StatisticService service;
+
+    @ResponseBody
+    @RequestMapping("/sqlyearStatistic")
+    public Map<String, Object> sqltest(String year) throws Exception{
+
+        return service.yearloginNum(year);
+    }
 
     @RequestMapping("/test")
     public ModelAndView test() throws Exception{
