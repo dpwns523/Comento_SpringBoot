@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.setting_springboot.dao.SwUtilMapper">
+
+    <resultMap id="TotCntOnDate" type="com.example.setting_springboot.dto.swutil.response.TotCntResponseDto">
+        <result property="date" column="date"/>
+        <result property="totCnt" column="totCnt"/>
+        <result property="requestCode" column="requestcode"/>
+    </resultMap>
+
+    <resultMap id="MeanCntOnDays" type="com.example.setting_springboot.dto.swutil.response.MeanCntResponseDto">
+        <result property="meanCnt" column="meanCnt"/>
+        <result property="requestCode" column="requestcode"/>
+    </resultMap>
+
+
+    <!-- 년월별 접속자 수   -->
+    <select id="totCntOnYearMonth" resultMap="TotCntOnDate">
+        select substring(`createDate`, 1, 4) as `date`, count(case when `requestcode`=#{dateDto.requestCode} then 1 end) as `totCnt`
+             , requestcode
+        from statistc.requestinfo
+        where substring(`createDate`, 1, 4)= #{dateDto.date} and `requestcode` = #{dateDto.requestCode}
+        group by createDate;
+    </select>
+
+    <!--  일자별 접속자 수  -->
+    <select id="totCntOnDate" resultMap="TotCntOnDate">
+        select substring(`createDate`, 1, 6) as `date`, count(case when `requestcode`=#{dateDto.requestCode} then 1 end) as `totCnt`
+        , requestcode
+        from statistc.requestinfo
+        where substring(`createDate`, 1, 6)= #{dateDto.date} and `requestcode` = #{dateDto.requestCode}
+        group by createDate;
+    </select>
+    <!--  하루 평균 접속자 수  -->
+    <select id="meanCntOnDays" resultMap="MeanCntOnDays">
+        select count(case when `requestcode` =#{requestDto.requestCode} then 1 end) / count(distinct substring(`createDate`, 1, 6)) as `meanCnt`, `requestcode`
+        from statistc.requestinfo
+        where `requestcode` = #{requestDto.requestCode};
+    </select>
+    <!-- 휴일을 제외한 로그인 수 (현재 버전은 휴일 포함)  -->
+<!--    <select id="meanCntOnDays" resultMap="MeanCntOnDays">-->
+<!--        select count(case when `requestcode` =#{requestDto.requestCode} then 1 end) as `totCnt`, `requestcode`-->
+<!--        from statistc.requestinfo-->
+<!--        where `requestcode` = #{requestDto.requestCode};-->
+<!--    </select>-->
+</mapper>

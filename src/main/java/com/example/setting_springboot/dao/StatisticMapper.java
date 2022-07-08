@@ -8,4 +8,5 @@ import java.util.HashMap;
 @Mapper
 public interface  StatisticMapper {
     public HashMap<String, Object> selectYearLogin(String year);
+
 }
