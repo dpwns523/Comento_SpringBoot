@@ -39,11 +39,14 @@ API 실행 결과
 월별 접속자 수
 ![image](https://user-images.githubusercontent.com/84260096/178091901-06f98b02-c194-47e2-abc9-ed0674c99307.png)
 
+
 일자별 접속자 수
 ![image](https://user-images.githubusercontent.com/84260096/178091924-c25ecf53-fe16-4b83-8701-b6d873e3b1b9.png)
 
+
 하루 평균 접속자 수
 ![image](https://user-images.githubusercontent.com/84260096/178091935-35165d36-dca0-414e-b8d9-1edd792fa9d9.png)
+
 
 부서별 월별 접속자 수
 ![image](https://user-images.githubusercontent.com/84260096/178091965-4fa47854-568f-42b4-889a-9c370a10c9b1.png)
