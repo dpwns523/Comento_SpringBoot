@@ -45,6 +45,7 @@ API 실행 결과
 
 
 하루 평균 접속자 수
+
 ![image](https://user-images.githubusercontent.com/84260096/178091935-35165d36-dca0-414e-b8d9-1edd792fa9d9.png)
 
 
