@@ -24,7 +24,6 @@
     <!-- 년월별 접속자 수   -->
     <select id="totCntOnYearMonth" resultMap="TotCntOnDate">
         select substring(`createDate`, 1, 4) as `date`, count(case when `requestcode`=#{yearRequestDto.requestCode} then 1 end) as `totCnt`
-             , requestcode
         from statistc.requestinfo
         where substring(`createDate`, 1, 2)= #{yearRequestDto.year} and `requestcode` = #{yearRequestDto.requestCode}
         group by `date` order by `date` DESC;
@@ -33,14 +32,13 @@
     <!--  일자별 접속자 수  -->
     <select id="totCntOnDate" resultMap="TotCntOnDate">
         select substring(`createDate`, 1, 6) as `date`, count(case when `requestcode`=#{yearMonthRequestDto.requestCode} then 1 end) as `totCnt`
-        , requestcode
         from statistc.requestinfo
         where substring(`createDate`, 1, 4)= #{yearMonthRequestDto.yearMonth} and `requestcode` = #{yearMonthRequestDto.requestCode}
         group by `date`  order by `date` DESC;
     </select>
     <!--  하루 평균 접속자 수  -->
     <select id="meanCntOnDays" resultMap="MeanCntOnDays">
-        select count(case when `requestcode` =#{requestDto.requestCode} then 1 end) / count(distinct substring(`createDate`, 1, 6)) as `meanCnt`, `requestcode`
+        select count(case when `requestcode` =#{requestDto.requestCode} then 1 end) / count(distinct substring(`createDate`, 1, 6)) as `meanCnt`
         from statistc.requestinfo
         where `requestcode` = #{requestDto.requestCode};
     </select>
@@ -54,7 +52,7 @@
 
     <!-- 부서별 년월별 로그인 수 -->
     <select id="totCntOnDepYearMonth" resultMap="TotCntOnDepDate">
-        select u.HR_ORGAN as `dep`, substring(ri.createDate, 1, 4) as `date`, count(case when ri.requestcode= #{yearRequestDto.requestCode} then 1 end) as `totCnt`, ri.requestcode
+        select u.HR_ORGAN as `dep`, substring(ri.createDate, 1, 4) as `date`, count(case when ri.requestcode= #{yearRequestDto.requestCode} then 1 end) as `totCnt`
         from statistc.requestinfo as ri
         join statistc.user as u on u.userID = ri.userID
         where substring(ri.createDate, 1, 2)= #{yearRequestDto.year} and ri.requestcode = #{yearRequestDto.requestCode}
