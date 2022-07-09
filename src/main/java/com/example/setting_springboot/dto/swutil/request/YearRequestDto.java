@@ -4,15 +4,15 @@ import lombok.*;
 
 
 @Data
-public class DateDto {
+public class YearRequestDto {
     @NonNull
     private String requestCode;
 
     @NonNull
-    private String date;
+    private String year;
 
-    public DateDto(String requestCode, String date){
+    public YearRequestDto(String requestCode, String year){
         this.requestCode =requestCode;
-        this.date = date;
+        this.year = year;
     }
 }

@@ -1,17 +1,17 @@
 package com.example.setting_springboot.service.impl;
 
 import com.example.setting_springboot.dao.SwUtilMapper;
-import com.example.setting_springboot.dto.swutil.request.DateDto;
+import com.example.setting_springboot.dto.swutil.request.YearMonthRequestDto;
+import com.example.setting_springboot.dto.swutil.request.YearRequestDto;
 import com.example.setting_springboot.dto.swutil.request.RequestDto;
+import com.example.setting_springboot.dto.swutil.response.DepTotCntResponseDto;
 import com.example.setting_springboot.dto.swutil.response.MeanCntResponseDto;
 import com.example.setting_springboot.dto.swutil.response.TotCntResponseDto;
-import com.example.setting_springboot.exception.MyDateFormatException;
 import com.example.setting_springboot.service.SwUtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class SwUtilServiceImpl implements SwUtilService{
@@ -20,27 +20,49 @@ public class SwUtilServiceImpl implements SwUtilService{
     private SwUtilMapper swUtilMapper;
 
     @Override
-    public TotCntResponseDto numOfConYearMonth(DateDto dateDto){
-        return swUtilMapper.totCntOnYearMonth(dateDto);
+    public List<TotCntResponseDto> numOfConYear(YearRequestDto yearRequestDto){
+        List<TotCntResponseDto> totCntResponseDtoList = swUtilMapper.totCntOnYearMonth(yearRequestDto);
+        for(TotCntResponseDto c: totCntResponseDtoList){
+            if(c != null){
+                c.setIs_success(true);
+            }
+            else c.setIs_success(false);
+        }
+        return totCntResponseDtoList;
     }
 
     @Override
-    public TotCntResponseDto numOfConDate(DateDto dateDto) throws MyDateFormatException {
-        String date = dateDto.getDate();
-        // Todo : Validation으로 처리하는 것으로 변경
-        if(date != null){
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
-                LocalDate check = LocalDate.parse(date, formatter);
-            }catch (Exception e){
-                throw new MyDateFormatException("형식이 올바르지 않습니다. Ex: yyMMdd");
+    public List<TotCntResponseDto> numOfConDays(YearMonthRequestDto yearMonthRequestDto) {
+        List<TotCntResponseDto> totCntResponseDtoList = swUtilMapper.totCntOnDate(yearMonthRequestDto);
+        for(TotCntResponseDto c: totCntResponseDtoList){
+            if(c != null){
+                c.setIs_success(true);
             }
+            else c.setIs_success(false);
         }
-        return swUtilMapper.totCntOnDate(dateDto);
+        return totCntResponseDtoList;
     }
 
     @Override
     public MeanCntResponseDto meanOfDays(RequestDto requestDto) {
-        return swUtilMapper.meanCntOnDays(requestDto);
+        MeanCntResponseDto meanCntResponseDto = swUtilMapper.meanCntOnDays(requestDto);
+        if(meanCntResponseDto != null){
+            meanCntResponseDto.setIs_success(true);
+        }
+        else meanCntResponseDto.setIs_success(false);
+        return meanCntResponseDto;
     }
+
+    @Override
+    public List<DepTotCntResponseDto> numOfConDepYear(YearRequestDto yearRequestDto) {
+        List<DepTotCntResponseDto> depTotCntResponseDtoList = swUtilMapper.totCntOnDepYearMonth(yearRequestDto);
+        for(DepTotCntResponseDto d: depTotCntResponseDtoList){
+            if(d != null){
+                d.setIs_success(true);
+            }
+            else d.setIs_success(false);
+        }
+        return depTotCntResponseDtoList;
+    }
+
 }
